@@ -1,6 +1,7 @@
 package com.flexisaf.tasks.controller;
 
 import com.flexisaf.tasks.Person;
+import jakarta.annotation.PostConstruct;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -16,6 +17,16 @@ import java.util.UUID;
 public class PeopleController {
 
 	List <Person> persons = new ArrayList<>();
+
+	@PostConstruct
+	public void init() {
+		if (persons.isEmpty()) {
+			persons.add(new Person("7c02e7a8-a4f3-4fb4-a709-1c53482f167e", "Flexisaf", 23));
+			persons.add(new Person("33db77b2-a797-4100-9aa3-288951ef8734", "Intern", 34));
+			persons.add(new Person("e7c129ba-d6f8-4dfb-b38f-12fba3e61cd9", "Micheal", 45));
+			persons.add(new Person("edd73967-c932-47ce-a4ef-590fd2861507", "Pelumi", 67));
+		}
+	}
 
 	@GetMapping
 	public List <Person> getPeople() {
