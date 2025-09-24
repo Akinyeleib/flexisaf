@@ -7,6 +7,23 @@ public class Person {
     private UUID id;
     private Integer age = null;
     private static final int MINIMUM_AGE = 17;
+
+    public Person(String id, String name, Integer age) {
+        this.name = name;
+        this.age = age;
+        this.id = UUID.fromString(id);
+//        this.id = UUID.randomUUID();
+    }
+
+    public Person(String name, Integer age) {
+        this.name = name;
+        this.age = age;
+        this.id = UUID.randomUUID();
+    }
+
+    public Person() {
+    }
+
     private String name;
 
     @Override
