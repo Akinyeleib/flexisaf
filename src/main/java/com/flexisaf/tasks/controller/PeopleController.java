@@ -1,7 +1,6 @@
 package com.flexisaf.tasks.controller;
 
 import com.flexisaf.tasks.Person;
-import org.springframework.boot.SpringApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -17,10 +16,6 @@ import java.util.UUID;
 public class PeopleController {
 
 	List <Person> persons = new ArrayList<>();
-
-	public static void main(String[] args) {
-		SpringApplication.run(PeopleController.class, args);
-	}
 
 	@GetMapping
 	public List <Person> getPeople() {
@@ -41,9 +36,11 @@ public class PeopleController {
 		try {
 			Person.validate(p);
 			Person person = getPerson(id);
+			getPerson(id).setName(p.getName() == null ? person.getName() : p.getName());
+			getPerson(id).setAge(p.getAge() == null ? person.getAge() : p.getAge());
 			return ResponseEntity.ok(person.getName() + " profile updated successfully");
 		} catch (Exception e) {
-			return new ResponseEntity<>("Person with id: " + id + " not found", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
 
