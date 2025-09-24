@@ -1,0 +1,82 @@
+package com.flexisaf.tasks.controller;
+
+import com.flexisaf.tasks.Person;
+import org.springframework.boot.SpringApplication;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/api/people")
+public class PeopleController {
+
+	List <Person> persons = new ArrayList<>();
+
+	public static void main(String[] args) {
+		SpringApplication.run(PeopleController.class, args);
+	}
+
+	@GetMapping
+	public List <Person> getPeople() {
+		return persons;
+	}
+
+	@GetMapping("{id}")
+	public ResponseEntity<Person> getOnePerson(@PathVariable UUID id) {
+		try {
+			return ResponseEntity.ok(getPerson(id));
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@PutMapping("{id}")
+	public ResponseEntity<String> updatePerson(@PathVariable UUID id, @RequestBody Person p) {
+		try {
+			Person person = getPerson(id);
+			return ResponseEntity.ok(person.getName() + " profile updated successfully");
+		} catch (Exception e) {
+			return new ResponseEntity<>("Person with id: " + id + " not found", HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@DeleteMapping("{id}")
+	public ResponseEntity<String> removePerson(@PathVariable UUID id ) {
+        Person person;
+        try {
+            person = getPerson(id);
+        } catch (Exception e) {
+			return new ResponseEntity<>("Person with id: " + id + " not found", HttpStatus.NOT_FOUND);
+        }
+		boolean removed = persons.remove(person);
+		final String MESSAGE = removed ? person.getName() + " profile deleted successfully" : "Error deleting Person with id: " + id;
+		final HttpStatus status = removed ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR;
+		return new ResponseEntity<>(MESSAGE, status);
+	}
+
+	@PostMapping
+	ResponseEntity<String> addPerson(@RequestBody Person person) {
+        try {
+            Person.validate(person);
+        } catch (Exception e) {
+			return ResponseEntity.badRequest().body("Error creating profile: " + e.getMessage());
+        }
+		person.setId(UUID.randomUUID());
+        persons.add(person);
+		return new ResponseEntity<>(person.getName() + "'s profile created successfully", HttpStatus.CREATED);
+	}
+
+	Person getPerson(UUID id) throws Exception {
+		Optional<Person> person = persons.stream().filter(p1 -> p1.getId().equals(id)).findAny();
+		if (person.isEmpty()) {
+			throw new Exception("Person with id: " + id + " not found!");
+		}
+        return person.get();
+	}
+
+}
