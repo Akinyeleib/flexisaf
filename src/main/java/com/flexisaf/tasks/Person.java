@@ -5,7 +5,7 @@ import java.util.UUID;
 public class Person {
 
     private UUID id;
-    private int age;
+    private Integer age = null;
     private static final int MINIMUM_AGE = 17;
     private String name;
 
@@ -19,8 +19,19 @@ public class Person {
     }
 
     public static void validate(Person person) throws Exception {
-        if (person.age < MINIMUM_AGE) {
+        final boolean agePresent = person.getAge() != null;
+        final boolean namePresent = person.getName() != null;
+        if (!agePresent && !namePresent) {
+            throw new Exception("At least one of name or age must be provided");
+        }
+        if (agePresent && person.age < MINIMUM_AGE) {
             throw new Exception("Minimum age is " + MINIMUM_AGE);
+        }
+        if (namePresent && person.getName().isBlank()) {
+            throw new Exception("Name cannot be blank");
+        }
+        if (namePresent && person.getName().trim().length() < 3) {
+            throw new Exception("Name is too short");
         }
     }
 
@@ -32,11 +43,11 @@ public class Person {
         this.id = id;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
