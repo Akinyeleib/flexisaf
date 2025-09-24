@@ -19,8 +19,22 @@ public class Person {
     }
 
     public static void validate(Person person) throws Exception {
+        validate(person, false);
+    }
+
+    public static void validate(Person person, boolean isPost) throws Exception {
         final boolean agePresent = person.getAge() != null;
         final boolean namePresent = person.getName() != null;
+        final boolean allRequiredPresent = agePresent && namePresent;
+        if (isPost && !allRequiredPresent ) {
+            if (!agePresent && !namePresent) {
+                throw new Exception("Name and Age are required fields");
+            } else if (!agePresent) {
+                throw new Exception("Age is a required field");
+            } else if (!namePresent) {
+                throw new Exception("Name is a required field");
+            }
+        }
         if (!agePresent && !namePresent) {
             throw new Exception("At least one of name or age must be provided");
         }

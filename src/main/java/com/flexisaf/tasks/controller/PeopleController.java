@@ -4,6 +4,7 @@ import com.flexisaf.tasks.Person;
 import org.springframework.boot.SpringApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -36,8 +37,9 @@ public class PeopleController {
 	}
 
 	@PutMapping("{id}")
-	public ResponseEntity<String> updatePerson(@PathVariable UUID id, @RequestBody Person p) {
+	public ResponseEntity<String> updatePerson(@PathVariable UUID id, @NonNull @RequestBody Person p) {
 		try {
+			Person.validate(p);
 			Person person = getPerson(id);
 			return ResponseEntity.ok(person.getName() + " profile updated successfully");
 		} catch (Exception e) {
@@ -62,7 +64,7 @@ public class PeopleController {
 	@PostMapping
 	ResponseEntity<String> addPerson(@RequestBody Person person) {
         try {
-            Person.validate(person);
+            Person.validate(person, true);
         } catch (Exception e) {
 			return ResponseEntity.badRequest().body("Error creating profile: " + e.getMessage());
         }
