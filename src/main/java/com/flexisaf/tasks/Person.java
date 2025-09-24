@@ -41,11 +41,12 @@ public class Person {
         if (agePresent && person.age < MINIMUM_AGE) {
             throw new Exception("Minimum age is " + MINIMUM_AGE);
         }
-        if (namePresent && person.getName().isBlank()) {
-            throw new Exception("Name cannot be blank");
-        }
-        if (namePresent && person.getName().trim().length() < 3) {
-            throw new Exception("Name is too short");
+        if (namePresent) {
+            if (person.getName().isBlank()) {
+                throw new Exception("Name cannot be blank");
+            } else if (person.getName().trim().length() < 3) {
+                throw new Exception("Name is too short");
+            }
         }
     }
 
