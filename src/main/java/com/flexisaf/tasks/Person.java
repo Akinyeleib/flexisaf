@@ -1,39 +1,28 @@
 package com.flexisaf.tasks;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.UUID;
 
+
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Person {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
     private Integer age = null;
+
     private static final int MINIMUM_AGE = 17;
 
-    public Person(String id, String name, Integer age) {
-        this.name = name;
-        this.age = age;
-        this.id = UUID.fromString(id);
-//        this.id = UUID.randomUUID();
-    }
-
-    public Person(String name, Integer age) {
-        this.name = name;
-        this.age = age;
-        this.id = UUID.randomUUID();
-    }
-
-    public Person() {
-    }
-
     private String name;
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", age=" + age +
-                ", name='" + name + '\'' +
-                '}';
-    }
 
     public static void validate(Person person) throws Exception {
         validate(person, false);
@@ -67,27 +56,4 @@ public class Person {
         }
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
