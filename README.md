@@ -6,7 +6,7 @@
 ### Submission Due Date: Monday, October 6, 2025
 
 ### Task Details: 
-Set up a DBMS and DBMS admin tools, setup a Java framework with its core libraries, application server setup (if required), setup build tools (Maven/Gradle). Quizzes and Exercises.
+Overview of ORM paradigms, implementing entity classes and repositories, persisting data, querying with JPQL/HQL e.t.c
 
 # People API
 
@@ -108,3 +108,4 @@ java -jar target/your-app-name.jar
 
 
 The application will start on http://localhost:8080
+
