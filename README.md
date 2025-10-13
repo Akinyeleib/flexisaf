@@ -1,12 +1,12 @@
 ﻿# Flexisaf Backend Tasks
 
-## Task 5: Database Migrations
+## Task 6: Implementing Service Classes
 ### Duration: 1 Week
-### Submission Date: Monday, October 13, 2025
-### Submission Due Date: Monday, October 13, 2025
+### Submission Date: Monday, October 20, 2025
+### Submission Due Date: Monday, October 20, 2025
 
 ### Task Details: 
-Implementing Database Migrations with Flyway
+Dependency Injection, Autowiring, best practices for business logic implementations.
 
 ### Dependencies:
 
