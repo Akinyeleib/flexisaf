@@ -1,0 +1,1 @@
+ALTER TABLE persons ADD COLUMN enabled boolean default false

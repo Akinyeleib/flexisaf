@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.UUID;
 
@@ -30,6 +31,10 @@ public class Person {
 
     @Column(name = "email_address", length = 55, unique = true)
     private String email;
+
+    @Column()
+    @ColumnDefault("false]")
+    private Boolean enabled;
 
     @Column(length = 35)
     @Enumerated(EnumType.STRING)
