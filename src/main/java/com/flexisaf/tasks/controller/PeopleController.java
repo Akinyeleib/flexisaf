@@ -26,6 +26,13 @@ public class PeopleController {
 		return (List<Person>) this.repository.findAll();
 	}
 
+    @GetMapping("/search")
+	public List <Person> getPeopleByName(@RequestParam String name) {
+        var persons = this.repository.findPeopleByName(name);
+        System.out.println("Log :: getPeopleByName :: " + name + " :: " + persons);
+		return persons;
+	}
+
 	@GetMapping("{id}")
 	public ResponseEntity<Person> getOnePerson(@PathVariable UUID id) {
 		try {
