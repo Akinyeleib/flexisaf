@@ -12,17 +12,28 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Table(name = "persons")
 public class Person {
 
     @Id
+    @Column(updatable = false)
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     private Integer age = null;
 
+    @Transient
     private static final int MINIMUM_AGE = 17;
 
+    @Column(name = "full_name", length = 100)
     private String name;
+
+    @Column(name = "email_address", length = 55, unique = true)
+    private String email;
+
+    @Column(length = 35)
+    @Enumerated(EnumType.STRING)
+    private Departments department = Departments.CUSTOMER_SERVICE;
 
     public static void validate(Person person) throws Exception {
         validate(person, false);
@@ -56,4 +67,8 @@ public class Person {
         }
     }
 
+}
+
+enum Departments {
+    IT, ADMIN, HR, ACCOUNTING, CUSTOMER_SERVICE
 }
