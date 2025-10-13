@@ -1,9 +1,9 @@
 ﻿# Flexisaf Backend Tasks
 
-## Task 3: Environment Setup
+## Task 4: Persistence Frameworks
 ### Duration: 1 Week
-### Submission Date: Wednesday, September 24, 2025
-### Submission Due Date: Monday, September 29, 2025
+### Submission Date: Friday, October 10, 2025
+### Submission Due Date: Monday, October 6, 2025
 
 ### Task Details: 
 Set up a DBMS and DBMS admin tools, setup a Java framework with its core libraries, application server setup (if required), setup build tools (Maven/Gradle). Quizzes and Exercises.
@@ -96,7 +96,6 @@ curl -X DELETE http://localhost:8080/api/people/7c02e7a8-a4f3-4fb4-a709-1c53482f
 
 - All person IDs are automatically generated UUIDs
 - Person validation is performed during creation (POST)
-- The API uses in-memory storage (data is lost when application restarts)
 - Person objects must pass validation before being created
 
 ## Running the Application
@@ -109,5 +108,3 @@ java -jar target/your-app-name.jar
 
 
 The application will start on http://localhost:8080
-
-
