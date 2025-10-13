@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @SpringBootApplication
-public class TasksApplication {
+public class FlexisafApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TasksApplication.class, args);
+		SpringApplication.run(FlexisafApplication.class, args);
 	}
 
 	@GetMapping()
