@@ -1,12 +1,23 @@
 ﻿# Flexisaf Backend Tasks
 
-## Task 4: Persistence Frameworks
+## Task 5: Database Migrations
 ### Duration: 1 Week
-### Submission Date: Friday, October 10, 2025
-### Submission Due Date: Monday, October 6, 2025
+### Submission Date: Monday, October 13, 2025
+### Submission Due Date: Monday, October 13, 2025
 
 ### Task Details: 
-Set up a DBMS and DBMS admin tools, setup a Java framework with its core libraries, application server setup (if required), setup build tools (Maven/Gradle). Quizzes and Exercises.
+Implementing Database Migrations with Flyway
+
+### Dependencies:
+
+- [ ] Build Tool: Maven
+- [ ] DBMS: PostgresSQL
+- [ ] DB_NAME: flexisaf
+- [ ] DB_USER_NAME: root
+- [ ] DB_PASSWORD: root
+- [ ] Postgresql Driver
+- [ ] Spring Data JPA
+- [ ] Flyway
 
 # People API
 
