@@ -2,7 +2,7 @@
 
 ## Task 6: Implementing Service Classes
 ### Duration: 1 Week
-### Submission Date: Monday, October 20, 2025
+### Submission Date: Sunday, October 19, 2025
 ### Submission Due Date: Monday, October 20, 2025
 
 ### Task Details: 
