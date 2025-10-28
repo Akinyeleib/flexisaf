@@ -1,12 +1,12 @@
 ﻿# Flexisaf Backend Tasks
 
-## Task 6: Implementing Service Classes
+## Task 7: Implementing REST Resource Endpoints
 ### Duration: 1 Week
-### Submission Date: Sunday, October 19, 2025
-### Submission Due Date: Monday, October 20, 2025
+### Submission Date: Sunday, October 26, 2025
+### Submission Due Date: Monday, October 27, 2025
 
 ### Task Details: 
-Dependency Injection, Autowiring, best practices for business logic implementations.
+Declaring resource endpoints, capturing parameters, returning responses from endpoints, service injections, handling errors, input validation, securing a resource endpoint, providing a REST API specification.
 
 ### Dependencies:
 

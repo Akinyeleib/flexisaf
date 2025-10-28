@@ -33,7 +33,7 @@ public class Person {
     private String email;
 
     @Column()
-    @ColumnDefault("false]")
+    @ColumnDefault("false")
     private Boolean enabled;
 
     @Column(length = 35)
