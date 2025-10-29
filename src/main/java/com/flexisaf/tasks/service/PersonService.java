@@ -1,6 +1,8 @@
 package com.flexisaf.tasks.service;
 
-import com.flexisaf.tasks.Person;
+import com.flexisaf.tasks.exception.FailedValidationException;
+import com.flexisaf.tasks.exception.PersonNotFoundException;
+import com.flexisaf.tasks.model.Person;
 import com.flexisaf.tasks.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,16 +20,16 @@ public class PersonService {
         return (List<Person>) repository.findAll();
     }
 
-    public Person getPersonById(UUID id) throws Exception {
-        return repository.findById(id).orElseThrow(() -> new Exception("Person with id: " + id + " not found!"));
+    public Person getPersonById(UUID id) throws PersonNotFoundException {
+        return repository.findById(id).orElseThrow(() -> new PersonNotFoundException("Person with id: " + id + " not found!"));
     }
 
-    public Person createPerson(Person person) throws Exception {
+    public Person createPerson(Person person) throws FailedValidationException {
         Person.validate(person, true);
         return repository.save(person);
     }
 
-    public Person updatePerson(UUID id, Person updatedPerson) throws Exception {
+    public Person updatePerson(UUID id, Person updatedPerson) throws PersonNotFoundException, FailedValidationException {
         Person.validate(updatedPerson);
         Person existingPerson = getPersonById(id);
 
@@ -41,7 +43,7 @@ public class PersonService {
         return repository.save(existingPerson);
     }
 
-    public Person deletePerson(UUID id) throws Exception {
+    public Person deletePerson(UUID id) throws PersonNotFoundException {
         Person person = getPersonById(id);
         repository.deleteById(id);
         return person;

@@ -1,5 +1,6 @@
-package com.flexisaf.tasks;
+package com.flexisaf.tasks.model;
 
+import com.flexisaf.tasks.exception.FailedValidationException;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,34 +41,34 @@ public class Person {
     @Enumerated(EnumType.STRING)
     private Departments department = Departments.CUSTOMER_SERVICE;
 
-    public static void validate(Person person) throws Exception {
+    public static void validate(Person person) throws FailedValidationException {
         validate(person, false);
     }
 
-    public static void validate(Person person, boolean isPost) throws Exception {
+    public static void validate(Person person, boolean isPost) throws FailedValidationException {
         final boolean agePresent = person.getAge() != null;
         final boolean namePresent = person.getName() != null;
         final boolean allRequiredPresent = agePresent && namePresent;
         if (isPost && !allRequiredPresent ) {
             if (!agePresent && !namePresent) {
-                throw new Exception("Name and Age are required fields");
+                throw new FailedValidationException("Name and Age are required fields");
             } else if (!agePresent) {
-                throw new Exception("Age is a required field");
+                throw new FailedValidationException("Age is a required field");
             } else if (!namePresent) {
-                throw new Exception("Name is a required field");
+                throw new FailedValidationException("Name is a required field");
             }
         }
         if (!agePresent && !namePresent) {
-            throw new Exception("At least one of name or age must be provided");
+            throw new FailedValidationException("At least one of name or age must be provided");
         }
         if (agePresent && person.age < MINIMUM_AGE) {
-            throw new Exception("Minimum age is " + MINIMUM_AGE);
+            throw new FailedValidationException("Minimum age is " + MINIMUM_AGE);
         }
         if (namePresent) {
             if (person.getName().isBlank()) {
-                throw new Exception("Name cannot be blank");
+                throw new FailedValidationException("Name cannot be blank");
             } else if (person.getName().trim().length() < 3) {
-                throw new Exception("Name is too short");
+                throw new FailedValidationException("Name is too short");
             }
         }
     }
