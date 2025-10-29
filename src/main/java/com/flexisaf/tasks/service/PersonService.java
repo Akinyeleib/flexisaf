@@ -1,6 +1,5 @@
 package com.flexisaf.tasks.service;
 
-import com.flexisaf.tasks.exception.FailedValidationException;
 import com.flexisaf.tasks.exception.PersonNotFoundException;
 import com.flexisaf.tasks.model.Person;
 import com.flexisaf.tasks.PersonRepository;
@@ -24,13 +23,11 @@ public class PersonService {
         return repository.findById(id).orElseThrow(() -> new PersonNotFoundException("Person with id: " + id + " not found!"));
     }
 
-    public Person createPerson(Person person) throws FailedValidationException {
-        Person.validate(person, true);
+    public Person createPerson(Person person) {
         return repository.save(person);
     }
 
-    public Person updatePerson(UUID id, Person updatedPerson) throws PersonNotFoundException, FailedValidationException {
-        Person.validate(updatedPerson);
+    public Person updatePerson(UUID id, Person updatedPerson) throws PersonNotFoundException {
         Person existingPerson = getPersonById(id);
 
         if (updatedPerson.getName() != null) {

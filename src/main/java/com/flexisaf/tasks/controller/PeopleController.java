@@ -1,9 +1,10 @@
 package com.flexisaf.tasks.controller;
 
-import com.flexisaf.tasks.exception.FailedValidationException;
+import com.flexisaf.tasks.dto.CreatePersonDto;
 import com.flexisaf.tasks.exception.PersonNotFoundException;
 import com.flexisaf.tasks.model.Person;
 import com.flexisaf.tasks.service.PersonService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -33,7 +34,7 @@ public class PeopleController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<String> updatePerson(@PathVariable UUID id, @NonNull @RequestBody Person p) throws PersonNotFoundException, FailedValidationException {
+    public ResponseEntity<String> updatePerson(@PathVariable UUID id, @NonNull @RequestBody Person p) throws PersonNotFoundException {
         Person updatedPerson = personService.updatePerson(id, p);
         return ResponseEntity.ok(updatedPerson.getName() + " profile updated successfully");
     }
@@ -45,8 +46,16 @@ public class PeopleController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addPerson(@RequestBody Person person) throws PersonNotFoundException, FailedValidationException {
-        Person createdPerson = personService.createPerson(person);
+    public ResponseEntity<String> addPerson(@RequestBody @Valid CreatePersonDto person) {
+        Person p = Person.builder()
+                .age(person.getAge())
+                .name(person.getName())
+                .email(person.getEmail())
+                .enabled(true)
+                .phoneNumber(person.getPhoneNumber())
+                .department(person.getDepartment())
+                .build();
+        Person createdPerson = personService.createPerson(p);
         return new ResponseEntity<>(createdPerson.getName() + "'s profile created successfully", HttpStatus.CREATED);
     }
 }
