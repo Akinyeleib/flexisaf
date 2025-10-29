@@ -1,6 +1,7 @@
 package com.flexisaf.tasks.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -19,6 +20,16 @@ public class ErrorHandler {
         return data;
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleFailedValidationExceptionAutomatic(MethodArgumentNotValidException m) {
+        Map<String, String> data = new HashMap<>();
+        m.getBindingResult().getFieldErrors().forEach(error -> {
+            data.put(error.getField(), error.getDefaultMessage());
+        });
+        return data;
+    }
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(PersonNotFoundException.class)
     public Map<String, String> handlePersonNotFoundException(PersonNotFoundException p) {
@@ -27,7 +38,7 @@ public class ErrorHandler {
         return data;
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public Map<String, String> handleGenericException(Exception p) {
         Map<String, String> data = new HashMap<>();
