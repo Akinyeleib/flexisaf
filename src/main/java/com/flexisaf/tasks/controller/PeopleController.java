@@ -1,13 +1,14 @@
 package com.flexisaf.tasks.controller;
 
-import com.flexisaf.tasks.Person;
+import com.flexisaf.tasks.exception.FailedValidationException;
+import com.flexisaf.tasks.exception.PersonNotFoundException;
+import com.flexisaf.tasks.model.Person;
 import com.flexisaf.tasks.service.PersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.Exception;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,41 +28,25 @@ public class PeopleController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Person> getOnePerson(@PathVariable UUID id) {
-        try {
-            return ResponseEntity.ok(personService.getPersonById(id));
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Person> getOnePerson(@PathVariable UUID id) throws PersonNotFoundException {
+        return ResponseEntity.ok(personService.getPersonById(id));
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<String> updatePerson(@PathVariable UUID id, @NonNull @RequestBody Person p) {
-        try {
-            Person updatedPerson = personService.updatePerson(id, p);
-            return ResponseEntity.ok(updatedPerson.getName() + " profile updated successfully");
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<String> updatePerson(@PathVariable UUID id, @NonNull @RequestBody Person p) throws PersonNotFoundException, FailedValidationException {
+        Person updatedPerson = personService.updatePerson(id, p);
+        return ResponseEntity.ok(updatedPerson.getName() + " profile updated successfully");
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> removePerson(@PathVariable UUID id) {
-        try {
-            Person deletedPerson = personService.deletePerson(id);
-            return ResponseEntity.ok(deletedPerson.getName() + " profile deleted successfully");
-        } catch (Exception e) {
-            return new ResponseEntity<>("Person with id: " + id + " not found", HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<String> removePerson(@PathVariable UUID id) throws PersonNotFoundException {
+        Person deletedPerson = personService.deletePerson(id);
+        return ResponseEntity.ok(deletedPerson.getName() + " profile deleted successfully");
     }
 
     @PostMapping
-    public ResponseEntity<String> addPerson(@RequestBody Person person) {
-        try {
-            Person createdPerson = personService.createPerson(person);
-            return new ResponseEntity<>(createdPerson.getName() + "'s profile created successfully", HttpStatus.CREATED);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error creating profile: " + e.getMessage());
-        }
+    public ResponseEntity<String> addPerson(@RequestBody Person person) throws PersonNotFoundException, FailedValidationException {
+        Person createdPerson = personService.createPerson(person);
+        return new ResponseEntity<>(createdPerson.getName() + "'s profile created successfully", HttpStatus.CREATED);
     }
 }
