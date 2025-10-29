@@ -1,5 +1,6 @@
 package com.flexisaf.tasks;
 
+import com.flexisaf.tasks.model.Person;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
