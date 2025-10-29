@@ -1,6 +1,7 @@
 package com.flexisaf.tasks.controller;
 
 import com.flexisaf.tasks.dto.CreatePersonDto;
+import com.flexisaf.tasks.dto.UpdatePersonDto;
 import com.flexisaf.tasks.exception.PersonNotFoundException;
 import com.flexisaf.tasks.model.Person;
 import com.flexisaf.tasks.service.PersonService;
@@ -34,7 +35,15 @@ public class PeopleController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<String> updatePerson(@PathVariable UUID id, @NonNull @RequestBody Person p) throws PersonNotFoundException {
+    public ResponseEntity<String> updatePerson(@PathVariable UUID id, @NonNull @RequestBody @Valid UpdatePersonDto person) throws PersonNotFoundException {
+        Person p = Person.builder()
+                .age(person.getAge())
+                .name(person.getName())
+                .email(person.getEmail())
+                .enabled(true)
+                .phoneNumber(person.getPhoneNumber())
+                .department(person.getDepartment())
+                .build();
         Person updatedPerson = personService.updatePerson(id, p);
         return ResponseEntity.ok(updatedPerson.getName() + " profile updated successfully");
     }
