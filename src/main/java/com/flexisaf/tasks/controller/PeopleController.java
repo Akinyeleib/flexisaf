@@ -6,6 +6,7 @@ import com.flexisaf.tasks.exception.PersonNotFoundException;
 import com.flexisaf.tasks.model.Person;
 import com.flexisaf.tasks.service.PersonService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -20,6 +21,7 @@ public class PeopleController {
 
     private final PersonService personService;
 
+    @Autowired
     public PeopleController(PersonService personService) {
         this.personService = personService;
     }
@@ -36,15 +38,7 @@ public class PeopleController {
 
     @PutMapping("{id}")
     public ResponseEntity<String> updatePerson(@PathVariable UUID id, @NonNull @RequestBody @Valid UpdatePersonDto person) throws PersonNotFoundException {
-        Person p = Person.builder()
-                .age(person.getAge())
-                .name(person.getName())
-                .email(person.getEmail())
-                .enabled(true)
-                .phoneNumber(person.getPhoneNumber())
-                .department(person.getDepartment())
-                .build();
-        Person updatedPerson = personService.updatePerson(id, p);
+        Person updatedPerson = personService.updatePerson(id, person);
         return ResponseEntity.ok(updatedPerson.getName() + " profile updated successfully");
     }
 
@@ -56,15 +50,8 @@ public class PeopleController {
 
     @PostMapping
     public ResponseEntity<String> addPerson(@RequestBody @Valid CreatePersonDto person) {
-        Person p = Person.builder()
-                .age(person.getAge())
-                .name(person.getName())
-                .email(person.getEmail())
-                .enabled(true)
-                .phoneNumber(person.getPhoneNumber())
-                .department(person.getDepartment())
-                .build();
-        Person createdPerson = personService.createPerson(p);
+        Person createdPerson = personService.createPerson(person);
         return new ResponseEntity<>(createdPerson.getName() + "'s profile created successfully", HttpStatus.CREATED);
     }
+
 }
